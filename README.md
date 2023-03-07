@@ -1,2 +1,2 @@
 # Lawncher
-A simple program launching tool.
+Nothing to see here (yet). Please move along.
