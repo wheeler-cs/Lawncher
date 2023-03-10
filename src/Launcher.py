@@ -1,4 +1,4 @@
-from subprocess import Popen
+from subprocess import Popen, call
 from sys import argv
 from threading import Thread
 from time import sleep
@@ -20,10 +20,10 @@ class Launcher (object):
         self.proc = Popen([self.path] + self.args)
 
 
-    def proc_status (self) -> bool:
-        if (self.proc is not None):
-            self.proc.communicate()
-            return self.proc.returncode
+    def proc_is_running (self) -> bool:
+        self.proc.poll()
+        if (self.proc.returncode is None):
+            return True
         else:
             return False
 
@@ -40,7 +40,8 @@ if __name__ == "__main__":
     my_prog.set_path(argv[1])
     if len(argv) > 2:
         my_prog.set_args(argv[2:])
-    my_prog.run_program()
+    my_prog.branch_proc()
 
-    while (True):
-        my_prog.proc_status()
+    while (my_prog.proc_is_running() is True):
+        pass
+    print ("Process Terminated")
